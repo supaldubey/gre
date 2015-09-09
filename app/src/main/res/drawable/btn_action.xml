@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><!--drawable/btn_feed_action.xml-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android" android:enterFadeDuration="200" android:exitFadeDuration="200">
+    <item android:state_pressed="false">
+        <shape android:shape="oval">
+            <solid android:color="@android:color/transparent" />
+            <padding android:bottom="16dp" android:left="16dp" android:right="16dp" android:top="16dp" />
+        </shape>
+    </item>
+    <item android:state_pressed="true">
+        <shape android:shape="oval">
+            <solid android:color="#66d3d6db" />
+            <padding android:bottom="16dp" android:left="16dp" android:right="16dp" android:top="16dp" />
+        </shape>
+    </item>
+</selector>

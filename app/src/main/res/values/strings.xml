@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">CubeStack Storm</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_shuffler">Shuffler</string>
+    <string name="menu_decks">Decks</string>
+    <string name="menu_favorites">Favorites</string>
+    <string name="menu_practices">Practices</string>
+    <string name="menu_about_us">About us</string>
+    <string name="menu_legal">Legal</string>
+    <string name="open_drawer">Open</string>
+    <string name="close_drawer">Close</string>
+</resources>
