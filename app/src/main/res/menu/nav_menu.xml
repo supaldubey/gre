@@ -9,9 +9,9 @@
             android:title="@string/menu_home" />
 
         <item
-            android:id="@+id/menuShuffler"
+            android:id="@+id/menuAdd"
             android:icon="@drawable/shuffler"
-            android:title="@string/menu_shuffler" />
+            android:title="@string/menu_add" />
 
         <item
             android:id="@+id/menuDeck"

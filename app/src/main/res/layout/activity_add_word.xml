@@ -36,24 +36,79 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:gravity="start|center_vertical"
-                    android:text="@string/app_name" />
+                    android:text="@string/add_word_title" />
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
-
-        <fragment
-            android:id="@+id/content_fragment"
-            android:name="in.cubestack.material.androidmaterial.fragment.MainFragment"
+            
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_margin="8dp"
             android:fitsSystemWindows="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+
+
+            <EditText
+                android:id="@+id/edit_word"
+                style="@style/TextAppearance.AppCompat.Subhead"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:hint="@string/new_word"
+                android:inputType="text"
+                android:maxLength="25"
+                android:paddingTop="8dp"
+                android:paddingBottom="16dp"
+                android:paddingLeft="3dp"
+                android:singleLine="true"
+                 />
+
+
+
+            <EditText
+                android:id="@+id/edit_usage"
+                style="@style/TextAppearance.AppCompat.Subhead"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:hint="@string/hint_sentence"
+                android:inputType="textMultiLine"
+                android:maxLength="250"
+                android:paddingBottom="16dp"
+                android:paddingLeft="3dp"
+                android:singleLine="true"
+                />
+
+
+
+            <EditText
+                android:id="@+id/edit_meanings"
+                style="@style/TextAppearance.AppCompat.Subhead"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:hint="@string/hint_meaning"
+                android:inputType="textMultiLine"
+                android:maxLength="100"
+                android:paddingBottom="16dp"
+                android:paddingLeft="3dp"
+                android:singleLine="true"
+                 />
+
+
+        </LinearLayout>
+
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             style="@style/FabStyle"
             android:layout_gravity="bottom|center"
-            android:paddingBottom="32dp"
-            android:src="@drawable/ic_add_expense_white" />
+            android:src="@android:drawable/ic_menu_save" />
     </android.support.design.widget.CoordinatorLayout>
 
 

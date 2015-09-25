@@ -130,12 +130,7 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordLi
                     toggling = false;
                     final long e = System.currentTimeMillis();
                     final AbstractCubeStackActivity activity = (AbstractCubeStackActivity) mContext;
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            activity.toast("Updated in " + (e - s) + " ms");
-                        }
-                    });
+                    activity.toast("Updated in " + (e - s) + " ms");
                 }
             });
             notifyItemChanged(pos);
@@ -211,6 +206,7 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordLi
     public void clear() {
         this.mItems.clear();
     }
+
 
     public void addNewItems(List<WordList> items) {
         if (mItems == null) return;

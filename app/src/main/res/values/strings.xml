@@ -2,6 +2,7 @@
     <string name="app_name">CubeStack Storm</string>
     <string name="menu_home">Home</string>
     <string name="menu_shuffler">Shuffler</string>
+    <string name="menu_add">Add Word</string>
     <string name="menu_decks">Decks</string>
     <string name="menu_favorites">Favorites</string>
     <string name="menu_practices">Practices</string>
@@ -9,4 +10,8 @@
     <string name="menu_legal">Legal</string>
     <string name="open_drawer">Open</string>
     <string name="close_drawer">Close</string>
+    <string name="add_word_title">Add new Word</string>
+    <string name="new_word">New Word</string>
+    <string name="hint_sentence">Provide multiple usage with line break</string>
+    <string name="hint_meaning">Provide multiple meaning with line break</string>
 </resources>

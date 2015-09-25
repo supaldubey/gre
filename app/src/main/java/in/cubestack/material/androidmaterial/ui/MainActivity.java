@@ -3,6 +3,7 @@ package in.cubestack.material.androidmaterial.ui;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +12,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
+import android.view.View;
 
 import butterknife.Bind;
 import in.cubestack.material.androidmaterial.R;
@@ -32,12 +34,23 @@ public class MainActivity extends AbstractCubeStackActivity {
     @Bind(R.id.view_nav)
     NavigationView navigationView;
 
+    @Bind(R.id.fab)
+    FloatingActionButton fab;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void
+    onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(getResources().getString(R.string.app_name));
         initNavDrawer();
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchAddActivity();
+            }
+        });
+
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         MainFragment mf = MainFragment.newInstance();
@@ -62,9 +75,9 @@ public class MainActivity extends AbstractCubeStackActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
-                    case R.id.menuShuffler:
+                    case R.id.menuAdd:
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        //TODO
+                        launchAddActivity();
                         break;
                     case R.id.menuDeck:
                         drawerLayout.closeDrawer(GravityCompat.START);
@@ -90,6 +103,20 @@ public class MainActivity extends AbstractCubeStackActivity {
                 return false;
             }
         });
+    }
+
+
+    private void launchAddActivity() {
+        View v = drawerLayout;
+        Intent intent = new Intent(this, AddWorkActivity.class);
+        launchActivityForResult(this, intent, 1, v, new int[]{v.getWidth(), v.getHeight()});
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        toast("Added");
     }
 
     @Override

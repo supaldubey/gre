@@ -2,15 +2,20 @@ package in.cubestack.material.androidmaterial.ui;
 
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -151,6 +156,15 @@ public abstract class AbstractCubeStackActivity extends AppCompatActivity implem
 
     Drawable getToolBarIcon() {
         return UiUtils.getDrawable(this, R.drawable.menu);
+    }
+
+    public static void launchActivityForResult(AbstractCubeStackActivity fromActivity, Intent intent, int reqCode, View view, int[] dimen) {
+        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(view, 0, 0, dimen[0], dimen[1]);
+        ActivityCompat.startActivityForResult(fromActivity, intent, reqCode, optionsCompat.toBundle());
+    }
+
+    protected void wobble(View view) {
+        view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.wobble));
     }
 
 }

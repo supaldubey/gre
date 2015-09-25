@@ -16,8 +16,11 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import in.cubestack.android.lib.storm.SortOrder;
+import in.cubestack.android.lib.storm.criteria.Order;
 import in.cubestack.android.lib.storm.criteria.Restriction;
 import in.cubestack.android.lib.storm.criteria.Restrictions;
+import in.cubestack.android.lib.storm.criteria.StormRestrictions;
 import in.cubestack.android.lib.storm.service.asyc.StormCallBack;
 import in.cubestack.material.androidmaterial.R;
 import in.cubestack.material.androidmaterial.adapter.WordListAdapter;
@@ -147,7 +150,8 @@ public class MainFragment extends AbstractFragment {
     private void loadData(final String word, final boolean triggeredFromAlphabetFilter) {
         try {
             int pageNo = ++pageNumber;
-            Restrictions restrictions = MainApplication.service().restrictionsFor(WordList.class);
+
+            Restrictions restrictions = StormRestrictions.restrictionsFor(WordList.class);
             Restriction restriction = null;
             if (UiUtils.ALL.equals(word)) {
                 restriction = restrictions.forAll();
@@ -156,17 +160,13 @@ public class MainFragment extends AbstractFragment {
             }
             final long s = System.currentTimeMillis();
             final AbstractCubeStackActivity activity = (AbstractCubeStackActivity) getActivity();
-            MainApplication.service().find(WordList.class, restriction.page(pageNo), new StormCallBack<WordList>() {
+            MainApplication.service().find(WordList.class, restriction.page(pageNo), Order.orderFor(WordList.class, new String[]{"word"}, SortOrder.ASC),
+            new StormCallBack<WordList>() {
                 @Override
                 public void onResults(final List<WordList> results) {
                     final long e = System.currentTimeMillis();
                     if (results != null && !results.isEmpty()) {
-                        activity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                activity.toast(results.size(), e - s);
-                            }
-                        });
+                        activity.toast(results.size(), e - s);
                         if(triggeredFromAlphabetFilter) {
                             wordListAdapter.clearAndAddNewItems(results);
                             recyclerView.smoothScrollToPosition(0);
@@ -174,12 +174,7 @@ public class MainFragment extends AbstractFragment {
                             wordListAdapter.addNewItems(results);
                         }
                     } else {
-                        activity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                activity.toast(0, e-s);
-                            }
-                        });
+                           activity.toast(0, e-s);
                     }
                 }
 
