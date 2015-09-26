@@ -67,6 +67,22 @@
                  />
 
 
+            <EditText
+                android:id="@+id/edit_meanings"
+                style="@style/TextAppearance.AppCompat.Subhead"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:hint="@string/hint_meaning"
+                android:inputType="textMultiLine"
+                android:maxLength="100"
+                android:paddingBottom="16dp"
+                android:paddingLeft="3dp"
+                android:singleLine="true"
+                />
+
+
 
             <EditText
                 android:id="@+id/edit_usage"
@@ -85,30 +101,15 @@
 
 
 
-            <EditText
-                android:id="@+id/edit_meanings"
-                style="@style/TextAppearance.AppCompat.Subhead"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:hint="@string/hint_meaning"
-                android:inputType="textMultiLine"
-                android:maxLength="100"
-                android:paddingBottom="16dp"
-                android:paddingLeft="3dp"
-                android:singleLine="true"
-                 />
-
-
         </LinearLayout>
 
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             style="@style/FabStyle"
-            android:layout_gravity="bottom|center"
-            android:src="@android:drawable/ic_menu_save" />
+            android:layout_gravity="bottom|right"
+            android:layout_margin="@dimen/fab_compat_margin"
+            android:src="@drawable/ic_check_white" />
     </android.support.design.widget.CoordinatorLayout>
 
 

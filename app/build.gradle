@@ -29,5 +29,5 @@ dependencies {
     compile 'com.android.support:design:23.0.1'
     compile 'com.jakewharton:butterknife:7.0.0'
     compile 'com.google.code.gson:gson:2.2.4'
-    compile 'in.cubestack.android.lib:storm:1.3'
+    compile 'in.cubestack.android.lib:storm:2.4'
 }

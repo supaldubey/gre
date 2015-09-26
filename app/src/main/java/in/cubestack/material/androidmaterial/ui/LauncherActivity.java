@@ -26,7 +26,7 @@ public class LauncherActivity extends AbstractCubeStackActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MainApplication.service().count(WordList.class, new StormCallBack() {
+        MainApplication.service().count(WordList.class, new StormCallBack<WordList>() {
             @Override
             public void onAggregate(int result) {
                 if (result == 0) {
@@ -43,27 +43,7 @@ public class LauncherActivity extends AbstractCubeStackActivity {
         });
     }
 
-    @Override
-    protected int getResourceLayout() {
-        return R.layout.activity_launcher;
-    }
-
-    private void launchDelayed(long[] stats) {
-        StringBuilder sb = new StringBuilder("Initialized successfully.<br/>");
-        sb.append("Persisted total ")
-                .append(stats[1])
-                .append(" entities<br/>")
-                .append("Consisting of ")
-                .append(stats[0])
-                .append(" database inserts across relations <br/>")
-                .append("In time ")
-                .append(stats[2])
-                .append(" milli seconds <br/>")
-                .append("Mind Blown or \"Storm\"ed or Both!");
-        go(sb.toString(), 2000);
-    }
-
-    private void go(final String msg, final long time) {
+    protected void go(final String msg, final long time) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -78,4 +58,10 @@ public class LauncherActivity extends AbstractCubeStackActivity {
             }
         });
     }
+
+    @Override
+    protected int getResourceLayout() {
+        return R.layout.activity_launcher;
+    }
+
 }

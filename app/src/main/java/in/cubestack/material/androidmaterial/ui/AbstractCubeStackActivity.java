@@ -4,13 +4,16 @@ import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -21,7 +24,9 @@ import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import in.cubestack.android.lib.storm.service.asyc.StormCallBack;
 import in.cubestack.material.androidmaterial.R;
+import in.cubestack.material.androidmaterial.model.WordList;
 import in.cubestack.material.androidmaterial.util.UiUtils;
 
 /**
@@ -124,7 +129,11 @@ public abstract class AbstractCubeStackActivity extends AppCompatActivity implem
     }
 
     public void toast(String message) {
-        Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+        toast(message, Toast.LENGTH_SHORT);
+    }
+
+    public void toast(String message, int duration) {
+        Toast toast = Toast.makeText(this, message, duration);
         TextView toastView = (TextView) LayoutInflater.from(this).inflate(R.layout.toast, null);
         toastView.setText(message);
         toast.setView(toastView);
@@ -166,5 +175,45 @@ public abstract class AbstractCubeStackActivity extends AppCompatActivity implem
     protected void wobble(View view) {
         view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.wobble));
     }
+
+
+    protected void openPage(String url) {
+        Intent web = new Intent(Intent.ACTION_VIEW);
+        web.setData(Uri.parse(url));
+        startActivity(web);
+
+    }
+
+    public  void clean() {
+        final long time = System.currentTimeMillis();
+        MainApplication.service().truncate(WordList.class, new StormCallBack<WordList>() {
+            @Override
+            public void onDelete(int deletedRows) {
+                toast(String.format("Cleaned entire in %s milliseconds", ""+(System.currentTimeMillis() - time) ));
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+
+            }
+        });
+    }
+
+    protected void launchDelayed(long[] stats) {
+        StringBuilder sb = new StringBuilder("Initialized successfully.<br/>");
+        sb.append("Persisted total ")
+                .append(stats[1])
+                .append(" entities<br/>")
+                .append("Consisting of ")
+                .append(stats[0])
+                .append(" database inserts across relations <br/>")
+                .append("In time ")
+                .append(stats[2])
+                .append(" milli seconds <br/>")
+                .append("Mind Blown or \"Storm\"ed or Both!");
+        go(sb.toString(), 2000);
+    }
+
+    protected  void go(String content, long time) {}
 
 }

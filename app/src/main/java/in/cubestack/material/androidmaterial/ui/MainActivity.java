@@ -1,10 +1,14 @@
 package in.cubestack.material.androidmaterial.ui;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -13,10 +17,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.Bind;
+import in.cubestack.android.lib.storm.service.asyc.StormCallBack;
 import in.cubestack.material.androidmaterial.R;
+import in.cubestack.material.androidmaterial.db.InitializerService;
 import in.cubestack.material.androidmaterial.fragment.MainFragment;
+import in.cubestack.material.androidmaterial.model.WordList;
+import in.cubestack.material.androidmaterial.util.LogUtils;
 import in.cubestack.material.androidmaterial.util.UiUtils;
 
 /**
@@ -24,6 +34,7 @@ import in.cubestack.material.androidmaterial.util.UiUtils;
  */
 public class MainActivity extends AbstractCubeStackActivity {
 
+    private static final String TAG = "MAIN";
     private boolean exit = false;
 
     private ActionBarDrawerToggle drawerToggle;
@@ -36,6 +47,9 @@ public class MainActivity extends AbstractCubeStackActivity {
 
     @Bind(R.id.fab)
     FloatingActionButton fab;
+
+    MainFragment mf;
+
 
     @Override
     protected void
@@ -53,7 +67,7 @@ public class MainActivity extends AbstractCubeStackActivity {
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        MainFragment mf = MainFragment.newInstance();
+        mf = MainFragment.newInstance();
         ft.add(R.id.content_fragment, mf);
         ft.commit();
     }
@@ -74,35 +88,37 @@ public class MainActivity extends AbstractCubeStackActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.menuAdd:
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        launchAddActivity();
-                        break;
-                    case R.id.menuDeck:
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        //TODO
-                        break;
-                    case R.id.menuFavorites:
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        //TODO
-                        break;
-                    case R.id.menuPractices:
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        //TODO
-                        break;
-                    case R.id.menuAboutUs:
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        //TODO
-                        break;
-                    case R.id.menuLegal:
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        //TODO
-                        break;
-                }
-                return false;
+                return menuHandler(menuItem);
             }
         });
+    }
+
+    private boolean menuHandler(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.menuAdd:
+                drawerLayout.closeDrawer(GravityCompat.START);
+                launchAddActivity();
+                break;
+            case R.id.menuClean:
+                drawerLayout.closeDrawer(GravityCompat.START);
+                clean();
+                reload();
+                break;
+
+            case R.id.menuPlay:
+                drawerLayout.closeDrawer(GravityCompat.START);
+                openPage("https://play.google.com/store/apps/developer?id=Cube+Stack");
+                break;
+            case R.id.menuGit:
+                drawerLayout.closeDrawer(GravityCompat.START);
+                openPage("http://github.com/supaldubey/storm");
+                break;
+            case R.id.menuAboutUs:
+                drawerLayout.closeDrawer(GravityCompat.START);
+                openPage("http://cubestack.in");
+                break;
+        }
+        return false;
     }
 
 
@@ -114,9 +130,29 @@ public class MainActivity extends AbstractCubeStackActivity {
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        toast("Added");
+        if(data != null  && data.getBooleanExtra("success", false)) {
+            mf.updateData();
+        }
+    }
+
+    private void reload () {
+        Intent intent = new Intent(this, LauncherActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    protected void go(String content, long time) {
+        toast(content, Toast.LENGTH_LONG);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                finish();
+                MainActivity.launch(MainActivity.this);
+            }
+        }, 200);
     }
 
     @Override
@@ -132,5 +168,18 @@ public class MainActivity extends AbstractCubeStackActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showSnackBar(String s) {
+        if(fab != null ) {
+            Snackbar snackbar = Snackbar.make(
+                    (fab), s,
+                    Snackbar.LENGTH_SHORT);
+            View view = snackbar.getView();
+            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+            tv.setTextColor(Color.WHITE);
+            snackbar.show();
+
+        }
     }
 }

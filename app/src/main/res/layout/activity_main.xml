@@ -51,8 +51,8 @@
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             style="@style/FabStyle"
-            android:layout_gravity="bottom|center"
-            android:paddingBottom="32dp"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="@dimen/fab_compat_margin"
             android:src="@drawable/ic_add_expense_white" />
     </android.support.design.widget.CoordinatorLayout>
 

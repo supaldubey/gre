@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -52,7 +51,7 @@ public class AddWorkActivity extends AbstractCubeStackActivity {
     @Bind(R.id.edit_word)
     EditText word;
 
-
+    boolean save = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,23 +67,20 @@ initSave();
 
     private void initSave() {
         if(TextUtils.isEmpty(word.getText())) {
-            toast("Please provide new work");
             wobble(word);
             return;
         }
 
+
         if(TextUtils.isEmpty(meaning.getText())) {
-            toast("Please provide meaning");
             wobble(meaning);
             return;
         }
 
         if(TextUtils.isEmpty(usage.getText())) {
-            toast("Please provide Usages");
             wobble(usage);
             return;
         }
-
 
         WordList wordList = new WordList();
         wordList.setWord(word.getText().toString());
@@ -115,8 +111,8 @@ initSave();
         MainApplication.service().save(wordList, new StormCallBack<WordList>() {
             @Override
             public void onSave(WordList entity) {
-
-                toast("Saved Successfully in " + (System.currentTimeMillis() - startTime) +" ms");
+                save = true;
+                toast(String.format("Inserted in %s milliseconds", (System.currentTimeMillis() - startTime) ));
                 finish();
             }
 
@@ -130,7 +126,7 @@ initSave();
     @Override
     public void finish() {
         Intent resultIntent = getIntent();
-        resultIntent.putExtra("success", "true");
+        resultIntent.putExtra("success", save);
         setResult(RESULT_OK, resultIntent);
         super.finish();
     }
@@ -139,37 +135,6 @@ initSave();
     private void initNavDrawer() {
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open_drawer, R.string.close_drawer);
         drawerLayout.setDrawerListener(drawerToggle);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.menuAdd:
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        break;
-                    case R.id.menuDeck:
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        //TODO
-                        break;
-                    case R.id.menuFavorites:
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        //TODO
-                        break;
-                    case R.id.menuPractices:
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        //TODO
-                        break;
-                    case R.id.menuAboutUs:
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        //TODO
-                        break;
-                    case R.id.menuLegal:
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        //TODO
-                        break;
-                }
-                return false;
-            }
-        });
     }
 
 

@@ -9,7 +9,7 @@
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>
-        <item name="colorControlHighlight">@color/accent_translucent</item> 
+        <item name="colorControlHighlight">#E5E5E5</item> 
         <item name="android:textColor">@color/text_primary</item>
         <item name="android:windowBackground">@android:color/white</item>
         <item name="selectableItemBackground">@drawable/selectable_item_background</item>

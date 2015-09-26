@@ -1,5 +1,6 @@
 package in.cubestack.material.androidmaterial.fragment;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import in.cubestack.material.androidmaterial.R;
 import in.cubestack.material.androidmaterial.adapter.WordListAdapter;
 import in.cubestack.material.androidmaterial.model.WordList;
 import in.cubestack.material.androidmaterial.ui.AbstractCubeStackActivity;
+import in.cubestack.material.androidmaterial.ui.MainActivity;
 import in.cubestack.material.androidmaterial.ui.MainApplication;
 import in.cubestack.material.androidmaterial.util.DividerDecoration;
 import in.cubestack.material.androidmaterial.util.EndlessRecyclerOnScrollListener;
@@ -56,6 +58,10 @@ public class MainFragment extends AbstractFragment {
         f.setArguments(args);
         f.setTitle("MAIN");
         return f;
+    }
+
+    public void updateData() {
+        loadData(UiUtils.ALPHABETS.get(lastSelectedIndex), true);
     }
 
     @Override
@@ -132,7 +138,7 @@ public class MainFragment extends AbstractFragment {
     int pageNumber = 0;
 
     private void onSelect(int idx, String word) {
-        if(lastSelectedIndex != idx) {
+        if (lastSelectedIndex != idx) {
             Resources res = getActivity().getResources();
             TextView lv = (TextView) alphabetScrollerLayout.getChildAt(lastSelectedIndex);
             lv.setBackgroundResource(R.drawable.alphabet_selector);
@@ -149,6 +155,10 @@ public class MainFragment extends AbstractFragment {
 
     private void loadData(final String word, final boolean triggeredFromAlphabetFilter) {
         try {
+
+            if (triggeredFromAlphabetFilter) {
+                pageNumber = 0;
+            }
             int pageNo = ++pageNumber;
 
             Restrictions restrictions = StormRestrictions.restrictionsFor(WordList.class);
@@ -161,28 +171,28 @@ public class MainFragment extends AbstractFragment {
             final long s = System.currentTimeMillis();
             final AbstractCubeStackActivity activity = (AbstractCubeStackActivity) getActivity();
             MainApplication.service().find(WordList.class, restriction.page(pageNo), Order.orderFor(WordList.class, new String[]{"word"}, SortOrder.ASC),
-            new StormCallBack<WordList>() {
-                @Override
-                public void onResults(final List<WordList> results) {
-                    final long e = System.currentTimeMillis();
-                    if (results != null && !results.isEmpty()) {
-                        activity.toast(results.size(), e - s);
-                        if(triggeredFromAlphabetFilter) {
-                            wordListAdapter.clearAndAddNewItems(results);
-                            recyclerView.smoothScrollToPosition(0);
-                        } else {
-                            wordListAdapter.addNewItems(results);
+                    new StormCallBack<WordList>() {
+                        @Override
+                        public void onResults(final List<WordList> results) {
+                            final long e = System.currentTimeMillis();
+                            if (results != null && !results.isEmpty()) {
+                                ((MainActivity) activity).showSnackBar("Fetched " + results.size() + " records in " + (e - s) + " ms");
+                                if (triggeredFromAlphabetFilter) {
+                                    wordListAdapter.clearAndAddNewItems(results);
+                                    recyclerView.smoothScrollToPosition(0);
+                                } else {
+                                    wordListAdapter.addNewItems(results);
+                                }
+                            } else {
+                                activity.toast(0, e - s);
+                            }
                         }
-                    } else {
-                           activity.toast(0, e-s);
-                    }
-                }
 
-                @Override
-                public void onError(Throwable throwable) {
-                    super.onError(throwable);
-                }
-            });
+                        @Override
+                        public void onError(Throwable throwable) {
+                            super.onError(throwable);
+                        }
+                    });
         } catch (Exception e) {
             LogUtils.LOGE(TAG, "", e);
         }

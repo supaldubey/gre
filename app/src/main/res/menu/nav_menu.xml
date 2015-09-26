@@ -9,32 +9,30 @@
             android:title="@string/menu_home" />
 
         <item
+            android:id="@+id/menuClean"
+            android:icon="@android:drawable/ic_delete"
+            android:title="@string/menu_clean" />
+
+
+        <item
             android:id="@+id/menuAdd"
-            android:icon="@drawable/shuffler"
+            android:icon="@drawable/ic_add_expense_white"
             android:title="@string/menu_add" />
 
-        <item
-            android:id="@+id/menuDeck"
-            android:icon="@drawable/decks"
-            android:title="@string/menu_decks" />
 
-        <item
-            android:id="@+id/menuFavorites"
-            android:icon="@drawable/favorite"
-            android:title="@string/menu_favorites" />
-
-        <item
-            android:id="@+id/menuPractices"
-            android:icon="@drawable/practice"
-            android:title="@string/menu_practices" />
     </group>
     <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menuPlay"
+            android:icon="@drawable/play_icon"
+            android:title="Google Play" />
+
         <item
             android:id="@+id/menuAboutUs"
             android:icon="@drawable/about_us"
             android:title="@string/menu_about_us" />
         <item
-            android:id="@+id/menuLegal"
+            android:id="@+id/menuGit"
             android:icon="@drawable/legal"
             android:title="@string/menu_legal" />
     </group>
