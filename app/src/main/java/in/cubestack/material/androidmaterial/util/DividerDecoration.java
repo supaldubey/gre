@@ -13,7 +13,7 @@ import in.cubestack.material.androidmaterial.R;
  * Sample application for Storm ORM.
  *
  * Check on Google play: https://play.google.com/store/apps/developer?id=Cube+Stack
- * Storm on GIT: https://github.com/supaldubey/storm
+ * Storm on GIT: https://github.com/supald/storm
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
