@@ -168,8 +168,19 @@ public class MainFragment extends AbstractFragment {
             TextView v = (TextView) alphabetScrollerLayout.getChildAt(idx);
             v.setBackgroundResource(R.drawable.alphabet_pressed);
             v.setTextColor(Color.WHITE);
+
             pageNumber = 0;
             lastSelectedIndex = idx;
+
+            // Reset Endless Scroller
+            recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener((LinearLayoutManager)
+                    recyclerView.getLayoutManager()) {
+                @Override
+                public void onLoadMore(int current_page) {
+                    loadData(UiUtils.ALPHABETS.get(lastSelectedIndex), false);
+                }
+            });
+
             loadData(word, true);
         }
     }
@@ -204,8 +215,6 @@ public class MainFragment extends AbstractFragment {
                                 } else {
                                     wordListAdapter.addNewItems(results);
                                 }
-                            } else {
-                                activity.toast(0, e - s);
                             }
                         }
 
